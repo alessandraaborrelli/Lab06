@@ -29,3 +29,10 @@ class Controller:
 
     # Altre Funzioni Event Handler
     # TODO
+
+    def mostra_strumenti(self, e):
+        strumenti = self._model.get_all_strumenti() # recupera la lista degli strumenti dal modello
+        self._view.lista_strumenti.controls.clear() # pulisce la ListView per non accumulare dati vecchi
+
+        if not strumenti:
+            self._view.
