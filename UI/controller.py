@@ -31,7 +31,7 @@ class Controller:
     # TODO
     # definizione della funzione collegata al bottone "Mostra"
     def mostra_strumenti(self, e):
-        strumenti = self._model.get_all_strumenti() # recupera la lista degli strumenti dal modello
+        strumenti = self._model.get_strumenti() # recupera la lista degli strumenti dal modello
         self._view.lista_strumenti.controls.clear() # pulisce la ListView per non accumulare dati vecchi
 
         # controlla se la lista è vuota

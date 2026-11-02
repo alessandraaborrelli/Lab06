@@ -1,3 +1,4 @@
+from database import DB_connect
 from database.DB_connect import get_connection
 from model.strumento import Strumento
 from model.prestito import Prestito
@@ -36,6 +37,29 @@ class DepositoStrumenti:
             :return: una lista con tutti gli strumenti presenti oppure None
         """
         # TODO
+        connessione = get_connection()
+        if connessione is None:
+            return
+
+        cursore = connessione.cursor(dictionary=True)
+        query = "SELECT * FROM strumento"
+        cursore.execute(query)
+
+        lista_strumenti = []
+        for riga in cursore:
+            s = Strumento(
+                codice = riga["codice"],
+                tipo = riga["tipo"],
+                marca = riga["marca"],
+                anno_acquisto =riga["anno_acquisto"],
+                valore =riga["valore"],
+                disponibile =riga["disponibile"]
+            )
+            lista_strumenti.append(s)
+        cursore.close()
+        connessione.close()
+        return lista_strumenti
+
 
     def cerca_strumenti_per_tipo(self, tipo) -> list[Strumento] | None:
         """
@@ -44,3 +68,25 @@ class DepositoStrumenti:
             :return: una lista con tutti gli strumenti del tipo indicato oppure None
         """
         # TODO
+        connessione = get_connection()
+        if connessione is None:
+            return
+
+        cursore = connessione.cursor(dictionary=True)
+        query = "SELECT * FROM strumento WHERE tipo = %s"
+        cursore.execute(query, (tipo,))
+
+        lista_strumenti_trovati = []
+        for riga in cursore:
+            s = Strumento(
+                codice=riga["codice"],
+                tipo=riga["tipo"],
+                marca=riga["marca"],
+                anno_acquisto=riga["anno_acquisto"],
+                valore=riga["valore"],
+                disponibile=riga["disponibile"]
+            )
+            lista_strumenti_trovati.append(s)
+        cursore.close()
+        connessione.close()
+        return lista_strumenti_trovati
